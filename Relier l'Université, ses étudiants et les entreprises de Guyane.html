@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Relier l'Université, ses étudiants et les entreprises de Guyane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fond:#f3f8f6; --surface:#ffffff; --encre:#14332c; --doux:#4a675f; --ligne:#c6ded4;
+  --vert:#13926e; --vert-fonce:#0d6b50; --mint:#d9f2ea; --ocean:#1f7a8c; --ocean-doux:#dcedf1;
+  --jaune:#ffc000; --jaune-doux:#fff4cf; --jaune-encre:#6b5000; --bande:#e8f3ee;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --fond:#0d1a17; --surface:#142823; --encre:#e2f0eb; --doux:#9dbab1; --ligne:#2b4942;
+    --vert:#33b88f; --vert-fonce:#7fd8b9; --mint:#1b3831; --ocean:#56aebf; --ocean-doux:#15313a;
+    --jaune:#ffc000; --jaune-doux:#3a2f0c; --jaune-encre:#ffd966; --bande:#112420; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --fond:#0d1a17; --surface:#142823; --encre:#e2f0eb; --doux:#9dbab1; --ligne:#2b4942;
+  --vert:#33b88f; --vert-fonce:#7fd8b9; --mint:#1b3831; --ocean:#56aebf; --ocean-doux:#15313a;
+  --jaune:#ffc000; --jaune-doux:#3a2f0c; --jaune-encre:#ffd966; --bande:#112420; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px); scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0; background:var(--fond); color:var(--encre);
+  font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif; font-size:17px; line-height:1.6}
+a{color:var(--vert-fonce)}
+.wrap{max-width:1160px; margin:0 auto; padding:0 24px}
+section{padding:64px 0}
+section + section{border-top:1px solid var(--ligne)}
+h1,h2,h3{letter-spacing:-0.02em; line-height:1.15; margin:0}
+h2{font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; margin-bottom:12px}
+.intro{color:var(--doux); max-width:64ch; margin:0 0 32px; font-size:1.05rem}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--jaune); outline-offset:2px}
+
+/* Hero */
+.hero{padding:56px 0 64px}
+.hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:center}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.6rem); font-weight:800; letter-spacing:-0.035em; margin-bottom:20px}
+.hero p{font-size:1.15rem; color:var(--doux); max-width:52ch; margin:0 0 28px}
+.actions{display:flex; flex-wrap:wrap; gap:12px}
+.btn{display:inline-block; font:inherit; font-weight:600; font-size:1rem; text-decoration:none; border-radius:10px; padding:12px 18px; border:2px solid var(--vert)}
+.btn.plein{background:var(--vert); color:#fff}
+:root[data-theme="dark"] .btn.plein{color:#06201a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.plein{color:#06201a}}
+.btn.vide{color:var(--vert-fonce); background:transparent}
+.constellation{width:100%; height:auto; display:block}
+.constellation .orbite{fill:none; stroke:var(--ligne); stroke-width:1.5; stroke-dasharray:4 6}
+.constellation .lien{stroke:var(--ligne); stroke-width:2}
+.constellation .centre{fill:var(--surface); stroke:var(--encre); stroke-width:2}
+.constellation .c-fug{fill:var(--mint); stroke:var(--vert); stroke-width:2.5}
+.constellation .c-portail{fill:var(--jaune-doux); stroke:var(--jaune); stroke-width:2.5}
+.constellation .c-hub{fill:var(--ocean-doux); stroke:var(--ocean); stroke-width:2.5}
+.constellation text{font-family:inherit; fill:var(--encre); text-anchor:middle}
+.constellation .t1{font-size:15px; font-weight:700}
+.constellation .t2{font-size:11.5px; fill:var(--doux)}
+.constellation .public{font-size:12.5px; fill:var(--doux); font-weight:600}
+
+/* Avant / après */
+.changements{display:flex; flex-direction:column; gap:0; border:1.5px solid var(--ligne); border-radius:14px; overflow:hidden; background:var(--surface)}
+.chg{display:grid; grid-template-columns:170px 1fr 1fr; gap:0}
+.chg + .chg{border-top:1px solid var(--ligne)}
+.chg > div{padding:18px 22px}
+.chg .sujet{font-weight:700; background:var(--bande)}
+.chg .avant{color:var(--doux)}
+.chg .apres{font-weight:600; border-left:4px solid var(--vert)}
+.chg-tete{display:grid; grid-template-columns:170px 1fr 1fr; font-size:.9rem; font-weight:600; color:var(--doux); margin-bottom:8px}
+.chg-tete span{padding:0 22px}
+
+/* Solutions */
+.solutions{display:flex; flex-direction:column; gap:28px}
+.sol{background:var(--surface); border:1.5px solid var(--ligne); border-radius:16px; overflow:hidden; display:grid; grid-template-columns:8px 1fr}
+.sol .barre{background:var(--vert)}
+.sol.portail .barre{background:var(--jaune)}
+.sol.hub .barre{background:var(--ocean)}
+.sol-corps{padding:28px 32px}
+.sol-tete{display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 16px; margin-bottom:6px}
+.sol h3{font-size:1.6rem; font-weight:800}
+.tag{font-size:.85rem; font-weight:600; padding:3px 10px; border-radius:999px; background:var(--mint); color:var(--vert-fonce)}
+.portail .tag{background:var(--jaune-doux); color:var(--jaune-encre)}
+.hub .tag{background:var(--ocean-doux); color:var(--ocean)}
+.promesse{font-size:1.15rem; margin:0 0 20px; max-width:60ch}
+.sol-grille{display:grid; grid-template-columns:1.1fr 1fr; gap:24px 36px}
+.scenario{background:var(--bande); border-radius:12px; padding:18px 20px; margin:0; font-size:1rem}
+.scenario strong{display:block; margin-bottom:6px}
+.sol h4{font-size:1rem; margin:0 0 8px}
+.sol ul{margin:0; padding-left:1.2em}
+.sol li{margin-bottom:5px}
+.phases{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:4px}
+.phase{border:1.5px solid var(--ligne); border-radius:12px; padding:14px 16px}
+.phase .annee{font-weight:800; font-size:1.05rem}
+.phase .montant{font-weight:700; color:var(--vert-fonce); margin-left:6px}
+.portail .phase .montant{color:var(--jaune-encre)}
+.hub .phase .montant{color:var(--ocean)}
+.phase p{margin:6px 0 0; font-size:.95rem; color:var(--doux)}
+.kpi{font-size:.95rem; color:var(--doux); margin:0}
+
+/* Matrice */
+.choix{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px}
+.choix button{font:inherit; font-size:.95rem; cursor:pointer; background:var(--surface); color:var(--encre);
+  border:1.5px solid var(--ligne); border-radius:999px; padding:8px 14px}
+.choix button:hover{border-color:var(--vert)}
+.choix button[aria-pressed="true"]{background:var(--encre); border-color:var(--encre); color:var(--fond); font-weight:600}
+.gains{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+.gain{background:var(--surface); border:1.5px solid var(--ligne); border-top:5px solid var(--vert); border-radius:12px; padding:18px 20px; min-height:140px}
+.gain.portail{border-top-color:var(--jaune)}
+.gain.hub{border-top-color:var(--ocean)}
+.gain h3{font-size:1.05rem; margin-bottom:8px}
+.gain p{margin:0}
+.gain.vide p{color:var(--doux); font-style:italic}
+details.tableau{margin-top:24px}
+details summary{cursor:pointer; font-weight:600; color:var(--vert-fonce)}
+.scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin-top:14px; border:1.5px solid var(--ligne); border-radius:12px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; min-width:760px; font-size:.93rem}
+th,td{text-align:left; vertical-align:top; padding:12px 14px; border-bottom:1px solid var(--ligne)}
+thead th{background:var(--bande); font-size:.9rem}
+tbody th{font-weight:700; width:170px}
+
+/* Socle */
+.socle{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+.brique{background:var(--mint); border-radius:14px; padding:20px}
+.brique h3{font-size:1.05rem; margin-bottom:6px}
+.brique p{margin:0; font-size:.95rem}
+.separe{margin-top:20px; background:var(--jaune-doux); border-radius:14px; padding:18px 22px}
+.separe p{margin:0}
+
+/* Feuille de route */
+.frise{display:grid; grid-template-columns:repeat(3,1fr); gap:0; position:relative; margin-bottom:36px}
+.etape{padding:0 20px 0 0; position:relative}
+.etape::before{content:""; display:block; height:4px; background:var(--vert); margin-bottom:16px; border-radius:2px}
+.etape:nth-child(2)::before{background:var(--ocean)}
+.etape:nth-child(3)::before{background:var(--jaune)}
+.etape h3{font-size:1.15rem; margin-bottom:8px}
+.etape ul{margin:0; padding-left:1.2em; font-size:.97rem}
+.etape li{margin-bottom:5px}
+.budget td.num,.budget th.num{text-align:right; white-space:nowrap}
+.budget tfoot td,.budget tfoot th{font-weight:800; border-bottom:none; background:var(--bande)}
+.note{font-size:.9rem; color:var(--doux); margin:12px 0 0}
+
+/* Impact */
+.impact{display:grid; grid-template-columns:1fr 1fr; gap:32px}
+.indic{display:flex; flex-direction:column; gap:12px}
+.indic div{border-left:4px solid var(--vert); padding:4px 0 4px 16px}
+.indic strong{display:block}
+.indic span{color:var(--doux); font-size:.95rem}
+.decisions{background:var(--encre); color:var(--fond); border-radius:16px; padding:28px 30px}
+.decisions h3{font-size:1.3rem; margin-bottom:14px}
+.decisions ol{margin:0; padding-left:1.3em}
+.decisions li{margin-bottom:10px}
+
+/* Annexe technique */
+.annexe details{background:var(--surface); border:1.5px solid var(--ligne); border-radius:14px; padding:18px 22px}
+.annexe dl{display:grid; grid-template-columns:200px 1fr; gap:10px 24px; margin:18px 0 0}
+.annexe dt{font-weight:700}
+.annexe dd{margin:0; color:var(--doux)}
+
+footer{padding:32px 0 48px; font-size:.9rem; color:var(--doux); border-top:1px solid var(--ligne)}
+
+@media (max-width:900px){
+  .hero-grid,.sol-grille,.impact{grid-template-columns:1fr}
+  .constellation{max-width:420px; margin:0 auto}
+  .gains,.socle,.frise{grid-template-columns:1fr}
+  .etape{padding:0 0 24px}
+  .chg,.chg-tete{grid-template-columns:1fr}
+  .chg-tete{display:none}
+  .chg .sujet{padding-bottom:8px}
+  .chg .avant::before{content:"Aujourd'hui : "; font-weight:600}
+  .chg .apres::before{content:"Demain : "; font-weight:700}
+  .phases{grid-template-columns:1fr}
+  .annexe dl{grid-template-columns:1fr; gap:4px}
+  .annexe dd{margin-bottom:10px}
+  .sol-corps{padding:22px 20px}
+  section{padding:48px 0}
+}
+@media print{
+  .choix,.gains,.actions{display:none}
+  details{display:block}
+  details > *{display:block}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Relier l'Université, ses étudiants et les entreprises de Guyane</h1>
+      <p>Trois solutions numériques, complémentaires au site de l'Université, portées ensemble par la Fondation et la DFPU dans le cadre du projet ADUG. Un socle commun, des missions qui restent distinctes.</p>
+      <div class="actions">
+        <a class="btn plein" href="#gains">Ce que chacun y gagne</a>
+        <a class="btn vide" href="https://claude.ai/artifact/2o63fHi9gZ6nEECT8f2TfT" target="_blank" rel="noopener">Voir les parcours détaillés</a>
+      </div>
+    </div>
+    <svg class="constellation" viewBox="0 0 420 400" role="img" aria-labelledby="c-titre">
+      <title id="c-titre">Le site de l'Université au centre, entouré du site de la Fondation, du portail Entreprises et du Hub Campus</title>
+      <circle class="orbite" cx="210" cy="205" r="140"/>
+      <line class="lien" x1="210" y1="205" x2="210" y2="65"/>
+      <line class="lien" x1="210" y1="205" x2="89" y2="275"/>
+      <line class="lien" x1="210" y1="205" x2="331" y2="275"/>
+      <circle class="centre" cx="210" cy="205" r="58"/>
+      <text class="t1" x="210" y="201">Site de</text>
+      <text class="t1" x="210" y="219">l'Université</text>
+      <circle class="c-fug" cx="210" cy="65" r="52"/>
+      <text class="t1" x="210" y="63">Site FUG</text>
+      <text class="t2" x="210" y="80">Donner</text>
+      <circle class="c-portail" cx="89" cy="275" r="58"/>
+      <text class="t1" x="89" y="270">Portail</text>
+      <text class="t1" x="89" y="287">Entreprises</text>
+      <circle class="c-hub" cx="331" cy="275" r="52"/>
+      <text class="t1" x="331" y="273">Hub Campus</text>
+      <text class="t2" x="331" y="290">Réussir</text>
+      <text class="public" x="345" y="30">Donateurs, mécènes</text>
+      <text class="public" x="80" y="372">Entreprises</text>
+      <text class="public" x="335" y="372">Étudiants, Alumni</text>
+    </svg>
+  </div>
+</header>
+
+<main>
+<section id="changements">
+  <div class="wrap">
+    <h2>Ce qui change</h2>
+    <p class="intro">Le site de l'Université informe. Les trois solutions permettent d'agir : donner, recruter, se former, être accompagné, rester lié.</p>
+    <div class="chg-tete" aria-hidden="true"><span></span><span>Aujourd'hui</span><span>Demain</span></div>
+    <div class="changements">
+      <div class="chg"><div class="sujet">Entreprises</div><div class="avant">Une entreprise trouve une dizaine de liens différents pour s'adresser à l'Université.</div><div class="apres">Quatre portes selon son besoin : recruter, former, innover, soutenir.</div></div>
+      <div class="chg"><div class="sujet">Relation</div><div class="avant">Plusieurs services contactent les mêmes entreprises, chacun avec ses propres outils.</div><div class="apres">Une fiche partagée par entreprise et un interlocuteur identifié.</div></div>
+      <div class="chg"><div class="sujet">Soutien</div><div class="avant">Pas de parcours de don en ligne opérationnel ni de reçu fiscal automatique.</div><div class="apres">Un don en quelques minutes et un reçu fiscal reçu aussitôt.</div></div>
+      <div class="chg"><div class="sujet">Étudiants</div><div class="avant">Les offres de stage et d'alternance sont dispersées entre plusieurs plateformes.</div><div class="apres">Une porte d'entrée unique, qui réunit les offres locales et nationales pour la Guyane.</div></div>
+      <div class="chg"><div class="sujet">Diplômés</div><div class="avant">Le lien avec les diplômés se perd après la remise du diplôme.</div><div class="apres">Le compte étudiant devient un compte Alumni, et le réseau reste vivant.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="solutions">
+  <div class="wrap">
+    <h2>Trois solutions complémentaires</h2>
+    <p class="intro">Chacune répond à un public et à une mission. Toutes s'appuient sur le même socle et renvoient les unes vers les autres.</p>
+    <div class="solutions">
+
+      <article class="sol">
+        <div class="barre"></div>
+        <div class="sol-corps">
+          <div class="sol-tete"><h3>Site de la Fondation</h3><span class="tag">Donateurs, mécènes, sponsors</span></div>
+          <p class="promesse">Donner en confiance : comprendre à quoi sert chaque euro, soutenir en quelques minutes, recevoir son reçu sans démarche.</p>
+          <div class="sol-grille">
+            <div>
+              <p class="scenario"><strong>Un exemple</strong>Une diplômée installée dans l'Hexagone scanne le QR code d'un magazine. En trois étapes, elle soutient chaque mois une bourse de mobilité et reçoit son reçu fiscal dans la minute. Quelques mois plus tard, elle lit le témoignage du boursier qu'elle aide.</p>
+            </div>
+            <div>
+              <h4>Ce qu'on y trouve</h4>
+              <ul>
+                <li>Un catalogue de soutien adapté à chaque profil : particulier, entreprise mécène, sponsor</li>
+                <li>Des pages projets et une rubrique transparence (gouvernance, comptes, impact)</li>
+                <li>Un calculateur de réduction d'impôt</li>
+                <li>Un don en ligne sécurisé et des reçus fiscaux automatiques</li>
+              </ul>
+            </div>
+          </div>
+          <h4 style="margin-top:22px">Calendrier et budget</h4>
+          <div class="phases">
+            <div class="phase"><span class="annee">2026</span><span class="montant">12 000 €</span><p>Site en ligne sur l'infrastructure de l'Université, avec catalogue, calculateur et don en ligne.</p></div>
+            <div class="phase"><span class="annee">2027</span><span class="montant">3 000 €</span><p>Ajustements après les premiers mois d'usage et audit d'accessibilité.</p></div>
+          </div>
+          <p class="kpi" style="margin-top:14px"><strong>Mesure du succès :</strong> montants collectés pour le fonctionnement et pour les projets, nombre de donateurs, part des dons mensuels.</p>
+        </div>
+      </article>
+
+      <article class="sol portail">
+        <div class="barre"></div>
+        <div class="sol-corps">
+          <div class="sol-tete"><h3>Portail Entreprises</h3><span class="tag">Entreprises, collectivités, partenaires</span></div>
+          <p class="promesse">Un guichet unique : l'entreprise dit ce dont elle a besoin, l'Université s'organise pour lui répondre.</p>
+          <div class="sol-grille">
+            <div>
+              <p class="scenario"><strong>Un exemple</strong>Le dirigeant d'une PME du BTP à Kourou cherche un alternant et veut former deux chefs de chantier. Il remplit un seul formulaire. Le service des stages et la DFPU le rappellent chacun sur sa demande, et toute sa relation avec l'Université tient sur une seule fiche.</p>
+            </div>
+            <div>
+              <h4>Ce qu'on y trouve</h4>
+              <ul>
+                <li>Quatre portes : recruter, former, innover, soutenir</li>
+                <li>Un formulaire unique, transmis automatiquement au bon service</li>
+                <li>Le catalogue de formation continue, repris du site de l'Université</li>
+                <li>Un espace partenaire qui réunit offres, formations et soutiens</li>
+              </ul>
+            </div>
+          </div>
+          <h4 style="margin-top:22px">Calendrier et budget</h4>
+          <div class="phases">
+            <div class="phase"><span class="annee">2026</span><span class="montant">5 000 €</span><p>Page « Entreprises » refondue en quatre portes, formulaire unique relié au CRM commun.</p></div>
+            <div class="phase"><span class="annee">2027</span><span class="montant">4 000 €</span><p>Espace partenaire accessible avec un compte unique.</p></div>
+          </div>
+          <p class="kpi" style="margin-top:14px"><strong>Mesure du succès :</strong> demandes reçues par porte, délai de réponse, nombre d'entreprises engagées sur plusieurs portes.</p>
+        </div>
+      </article>
+
+      <article class="sol hub">
+        <div class="barre"></div>
+        <div class="sol-corps">
+          <div class="sol-tete"><h3>Hub Campus</h3><span class="tag">Étudiants, Alumni, recruteurs</span></div>
+          <p class="promesse">La porte d'entrée des étudiants de Guyane vers l'emploi, conçue pour les réalités du territoire et ouverte aux étudiants venus d'ailleurs.</p>
+          <div class="sol-grille">
+            <div>
+              <p class="scenario"><strong>Un exemple</strong>Une étudiante en licence à Saint-Laurent-du-Maroni se connecte avec ses identifiants de l'Université. Elle trouve les offres d'alternance de l'Ouest guyanais, postule en deux gestes et échange avec une diplômée devenue mentor. À Belém, un étudiant découvre les parcours de réussite publiés sur le Hub et prépare sa candidature.</p>
+            </div>
+            <div>
+              <h4>Ce qu'on y trouve</h4>
+              <ul>
+                <li>Les offres locales et les offres nationales publiées pour la Guyane, au même endroit</li>
+                <li>Un profil avec CV et présentation vidéo, une candidature rapide</li>
+                <li>Le mentorat par les Alumni et les cadres d'entreprises partenaires</li>
+                <li>Une vitrine publique pour attirer des étudiants du Brésil, du Suriname et au-delà</li>
+              </ul>
+            </div>
+          </div>
+          <h4 style="margin-top:22px">Calendrier et budget</h4>
+          <div class="phases">
+            <div class="phase"><span class="annee">2026</span><span class="montant">8 000 €</span><p>Conception avec des étudiants et des entreprises, prototype testé, cadrage technique avec la DSI.</p></div>
+            <div class="phase"><span class="annee">2027</span><span class="montant">52 000 €</span><p>Premier semestre : offres, profils, candidatures, vitrine. Second semestre : présentation vidéo, mentorat, messagerie, passage au statut Alumni.</p></div>
+          </div>
+          <p class="kpi" style="margin-top:14px"><strong>Mesure du succès :</strong> étudiants inscrits, stages et alternances conclus, binômes de mentorat, Alumni actifs.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="gains">
+  <div class="wrap">
+    <h2>Ce que chacun y gagne</h2>
+    <p class="intro">Choisissez une partie prenante pour voir ce que chaque solution lui apporte concrètement.</p>
+    <div class="choix" id="choix" role="group" aria-label="Parties prenantes"></div>
+    <div class="gains" id="gains-cartes" aria-live="polite"></div>
+    <details class="tableau">
+      <summary>Voir le tableau complet</summary>
+      <div class="scroll"><table id="tableau"></table></div>
+    </details>
+  </div>
+</section>
+
+<section id="socle">
+  <div class="wrap">
+    <h2>Ce qui est mis en commun</h2>
+    <p class="intro">Ce qui sert à tous n'est construit, payé et maintenu qu'une fois.</p>
+    <div class="socle">
+      <div class="brique"><h3>Un compte unique</h3><p>Les étudiants et les personnels utilisent leurs identifiants de l'Université. Entreprises, Alumni et donateurs ont un seul compte pour toutes les solutions.</p></div>
+      <div class="brique"><h3>Un CRM commun</h3><p>Une fiche par entreprise, partagée par la FUG, la DFPU et le service des stages. Fini le démarchage en double.</p></div>
+      <div class="brique"><h3>Des contenus écrits une fois</h3><p>Le catalogue de formation, les actualités et la recherche sont mis à jour sur le site de l'Université, puis repris automatiquement.</p></div>
+      <div class="brique"><h3>Une mesure d'audience</h3><p>Un seul outil, respectueux de la vie privée, pour suivre un parcours d'une solution à l'autre.</p></div>
+    </div>
+    <div class="separe"><p><strong>Ce qui reste propre à chaque service.</strong> Le don et ses reçus fiscaux restent à la Fondation, les devis et conventions de formation à la DFPU, les offres et la relation étudiante au service des stages. Chacun ne voit que ses propres montants.</p></div>
+  </div>
+</section>
+
+<section id="feuille-de-route">
+  <div class="wrap">
+    <h2>Feuille de route et budget</h2>
+    <p class="intro">Un déploiement en trois temps, pour livrer vite ce qui est prêt et construire le Hub avec ses futurs utilisateurs.</p>
+    <div class="frise">
+      <div class="etape"><h3>Fin 2026</h3><ul><li>CRM commun en service</li><li>Page Entreprises en quatre portes</li><li>Site de la Fondation en ligne</li><li>Conception du Hub avec les étudiants</li></ul></div>
+      <div class="etape"><h3>Premier semestre 2027</h3><ul><li>Espace partenaire du portail</li><li>Hub Campus, première version : offres, profils, candidatures, vitrine</li></ul></div>
+      <div class="etape"><h3>Second semestre 2027</h3><ul><li>Hub Campus, seconde version : vidéo, mentorat, messagerie, réseau Alumni</li><li>Audits d'accessibilité et ajustements</li></ul></div>
+    </div>
+    <div class="scroll">
+      <table class="budget">
+        <thead><tr><th>Poste</th><th class="num">2026</th><th class="num">2027</th><th class="num">Total</th></tr></thead>
+        <tbody>
+          <tr><th>Site de la Fondation</th><td class="num">12 000 €</td><td class="num">3 000 €</td><td class="num">15 000 €</td></tr>
+          <tr><th>Portail Entreprises</th><td class="num">5 000 €</td><td class="num">4 000 €</td><td class="num">9 000 €</td></tr>
+          <tr><th>Hub Campus</th><td class="num">8 000 €</td><td class="num">52 000 €</td><td class="num">60 000 €</td></tr>
+          <tr><th>CRM commun</th><td class="num">5 000 €</td><td class="num">Abonnement</td><td class="num">5 000 € et abonnement</td></tr>
+        </tbody>
+        <tfoot><tr><th>Total</th><td class="num">30 000 €</td><td class="num">59 000 €</td><td class="num">89 000 €</td></tr></tfoot>
+      </table>
+    </div>
+    <p class="note">Estimations avant devis, hors hébergement, maintenance et abonnements récurrents. Le budget 2026 laisse une part pour l'édition des supports imprimés.</p>
+  </div>
+</section>
+
+<section id="impact">
+  <div class="wrap">
+    <h2>L'impact attendu</h2>
+    <p class="intro">Les solutions servent directement les engagements du projet ADUG, pour la formation continue comme pour le mécénat.</p>
+    <div class="impact">
+      <div class="indic">
+        <div><strong>Plus d'alternants</strong><span>Un outil au service de l'objectif ADUG d'au moins 10 % d'alternants en plus chaque année.</span></div>
+        <div><strong>Des entreprises fidélisées</strong><span>Des entreprises qui recrutent, forment et soutiennent, suivies sur une seule fiche.</span></div>
+        <div><strong>Une collecte qui démarre</strong><span>Des dons de particuliers, d'Alumni et d'entreprises, avec des reçus émis sans délai.</span></div>
+        <div><strong>Une Université plus attractive</strong><span>Une vitrine qui montre la réussite de ses étudiants, en Guyane et au-delà.</span></div>
+      </div>
+      <div class="decisions">
+        <h3>Décisions attendues</h3>
+        <ol>
+          <li>Valider l'architecture proposée et la priorité donnée au CRM commun.</li>
+          <li>Engager le budget 2026 : CRM, site de la Fondation, portail, conception du Hub.</li>
+          <li>Inscrire le Hub Campus au plan de financement 2027 et solliciter les cofinanceurs.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="technique" class="annexe">
+  <div class="wrap">
+    <h2>Pour l'équipe technique</h2>
+    <p class="intro">Les hypothèses à confirmer avec le service web de l'Université.</p>
+    <details>
+      <summary>Afficher les hypothèses techniques</summary>
+      <dl>
+        <dt>Infrastructure</dt><dd>Site de la Fondation et portail sur l'installation WordPress de l'Université, idéalement en multisite, avec sous-domaines dédiés.</dd>
+        <dt>Contenus partagés</dt><dd>Reprise des pages du site de l'Université (formation continue, actualités, recherche) par l'API REST de WordPress.</dd>
+        <dt>Identité</dt><dd>Connexion avec les identifiants de l'Université pour étudiants et personnels ; annuaire commun pour les publics externes, à définir.</dd>
+        <dt>CRM</dt><dd>Outil unique, alimenté par les formulaires des trois solutions, avec des droits par service.</dd>
+        <dt>Paiement</dt><dd>Uniquement sur le site de la Fondation, via un prestataire certifié, dans le respect du circuit comptable validé avec l'agence comptable.</dd>
+        <dt>Hub Campus</dt><dd>Application distincte : profils, vidéo, mentorat, messagerie, connexion aux données de scolarité, import des offres nationales pour la Guyane.</dd>
+        <dt>Mesure d'audience</dt><dd>Un outil unique pour les quatre plateformes, sans cookie de suivi si possible.</dd>
+        <dt>Conformité</dt><dd>Accessibilité RGAA, protection des données avec le délégué de l'Université, hébergement dans l'Union européenne.</dd>
+      </dl>
+    </details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Document de travail, Fondation de l'Université de Guyane et DFPU, projet ADUG. Proposition d'Anaïse Constant, chargée de marketing et de communication. Estimations avant devis, à confirmer avec les services concernés.</div>
+</footer>
+
+<script>
+(function(){
+  var SOL = [
+    {id:'fug', nom:'Site de la Fondation', cls:''},
+    {id:'portail', nom:'Portail Entreprises', cls:'portail'},
+    {id:'hub', nom:'Hub Campus', cls:'hub'}
+  ];
+  var PP = [
+    {id:'etudiants', nom:'Étudiants', g:{
+      fug:"Des bourses et des prix financés par la collecte, présentés clairement.",
+      portail:"Plus d'entreprises qui connaissent l'Université et proposent des stages et des alternances.",
+      hub:"Une seule porte pour les offres, un profil qui les met en valeur, un mentor pour avancer."}},
+    {id:'alumni', nom:'Alumni', g:{
+      fug:"Soutenir en quelques minutes l'Université qui les a formés.",
+      portail:"Recruter des stagiaires et des alternants pour leur entreprise.",
+      hub:"Garder leur compte, retrouver le réseau des diplômés, devenir mentor."}},
+    {id:'entreprises', nom:'Entreprises', g:{
+      fug:"Un coût net connu d'avance et un reçu fiscal immédiat si elles soutiennent.",
+      portail:"Un seul point d'entrée pour recruter, former, innover et soutenir.",
+      hub:"Un accès direct aux talents du territoire et des candidatures ciblées."}},
+    {id:'mecenes', nom:'Mécènes', g:{
+      fug:"Un calculateur, des reçus automatiques et un rapport d'impact.",
+      portail:"Un espace partenaire qui réunit toute leur relation avec l'Université.",
+      hub:"Une visibilité auprès des étudiants et un badge distinctif sur leurs offres."}},
+    {id:'donateurs', nom:'Donateurs particuliers', g:{
+      fug:"Un don en ligne sécurisé, un reçu immédiat et des nouvelles de l'impact.",
+      portail:null,
+      hub:"Pour les diplômés, un accès direct au don depuis leur espace."}},
+    {id:'fondation', nom:'Fondation', g:{
+      fug:"Une collecte outillée, des reçus automatisés, une vitrine crédible.",
+      portail:"Des entreprises orientées vers le mécénat, sans démarchage en double.",
+      hub:"Un vivier d'Alumni, futurs donateurs et mentors."}},
+    {id:'dfpu', nom:'DFPU', g:{
+      fug:"Une marque universitaire renforcée auprès des entreprises.",
+      portail:"Des demandes de formation qualifiées et un catalogue mis en avant.",
+      hub:"Plus d'alternants, mieux orientés, au service des objectifs d'ADUG."}},
+    {id:'pave', nom:'Service des stages et vie étudiante', g:{
+      fug:"Des bourses pour accompagner la mobilité des étudiants.",
+      portail:"Des entreprises identifiées et des offres centralisées.",
+      hub:"Un outil pour valider les offres, suivre l'insertion et animer le campus."}},
+    {id:'gouvernance', nom:"Gouvernance de l'Université", g:{
+      fug:"Des ressources propres nouvelles, gérées en transparence.",
+      portail:"Une relation avec les entreprises coordonnée entre les services.",
+      hub:"Des indicateurs d'insertion et un outil d'attractivité, y compris à l'international."}},
+    {id:'territoire', nom:'Partenaires du territoire', g:{
+      fug:"Un cadre clair pour soutenir des projets à impact local.",
+      portail:"Un interlocuteur unique à recommander aux entreprises de leurs réseaux.",
+      hub:"Des jeunes formés au plus près des besoins des entreprises guyanaises."}}
+  ];
+
+  var choix = document.getElementById('choix');
+  var cartes = document.getElementById('gains-cartes');
+
+  function afficher(id){
+    var p = PP.filter(function(x){ return x.id === id; })[0];
+    Array.prototype.forEach.call(choix.children, function(b){
+      b.setAttribute('aria-pressed', b.dataset.id === id ? 'true' : 'false');
+    });
+    cartes.innerHTML = SOL.map(function(s){
+      var t = p.g[s.id];
+      return '<div class="gain '+s.cls+(t ? '' : ' vide')+'"><h3>'+s.nom+'</h3><p>'+(t || 'Pas de bénéfice direct pour ce public.')+'</p></div>';
+    }).join('');
+  }
+
+  PP.forEach(function(p, i){
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = p.nom; b.dataset.id = p.id;
+    b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+    b.addEventListener('click', function(){ afficher(p.id); });
+    choix.appendChild(b);
+  });
+
+  var tab = document.getElementById('tableau');
+  tab.innerHTML = '<thead><tr><th>Partie prenante</th>' + SOL.map(function(s){ return '<th>'+s.nom+'</th>'; }).join('') + '</tr></thead><tbody>' +
+    PP.map(function(p){
+      return '<tr><th>'+p.nom+'</th>' + SOL.map(function(s){ return '<td>'+(p.g[s.id] || '—')+'</td>'; }).join('') + '</tr>';
+    }).join('') + '</tbody>';
+
+  afficher(PP[0].id);
+})();
+</script>
+</body>
+</html>
